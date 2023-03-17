@@ -74,7 +74,6 @@ outputdf = pd.DataFrame([outputdf], columns= trainx.columns)
 p1 = xgb.predict(outputdf)[0]
 p2 = xgb.predict_proba(outputdf)
 
-
 explainer = shap.KernelExplainer(xgb.predict,trainx)
 shap_values = explainer.shap_values(outputdf)
 
