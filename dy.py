@@ -1,15 +1,16 @@
-from base64 import a85decode
-from copyreg import pickle
 import streamlit as st
+
 import numpy as np
 from numpy import array
 from numpy import argmax
 from numpy import genfromtxt
 import pandas as pd
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report
+import pickle
 import shap
-import xgboost as xgb  ###xgboost
-from xgboost.sklearn import XGBClassifier
 import matplotlib.pyplot as plt
+from xgboost.sklearn import XGBClassifier
 
 st.set_page_config(page_title="Probability Prediction of Hypoxemia in Gastrointestinal Endoscopy under Sedation", layout="wide")
 
@@ -74,20 +75,37 @@ outputdf = pd.DataFrame([outputdf], columns= trainx.columns)
 p1 = xgb.predict(outputdf)[0]
 p2 = xgb.predict_proba(outputdf)
 
-explainer = shap.KernelExplainer(xgb.predict,trainx)
-shap_values = explainer.shap_values(outputdf)
-
-
-from shap.plots import _waterfall
-#st_shap(shap.plots.waterfall(shap_values[0]),  height=500, width=1700)
-st.set_option('deprecation.showPyplotGlobalUse', False)
-_waterfall.waterfall_legacy(explainer.expected_value,shap_values[0,:],feature_names=trainx.columns)
-#shap.summary_plot(shap_values,outputdf,feature_names=X.columns)
-st.pyplot(bbox_inches='tight')
-
 p3 = p2[:,1]
 result=""
 if st.button("Predict"):
   #st.write(p2)  
   #st.write(f'The probability of hypoxemia during endscopies: {p3*100}')
   st.success('The probability of hypoxemia during endscopies: {:.2f}%'.format(p3[0]*100))
+  #if p3 > 0.174:
+      #b="High risk"
+  #else:
+      #b="Low risk"
+  #st.success('The risk group:'+ b)
+  
+  explainer = shap.KernelExplainer(xgb.predict,trainx)
+  shap_values = explainer.shap_values(outputdf)
+
+
+  from shap.plots import _waterfall
+#st_shap(shap.plots.waterfall(shap_values[0]),  height=500, width=1700)
+  st.set_option('deprecation.showPyplotGlobalUse', False)
+  _waterfall.waterfall_legacy(explainer.expected_value,shap_values[0,:],feature_names=trainx.columns)
+#shap.summary_plot(shap_values,outputdf,feature_names=X.columns)
+  st.pyplot(bbox_inches='tight')
+
+#p3 = p2[:,1]
+#result=""
+#if st.button("Predict"):
+  #st.write(p2)  
+  #st.write(f'The probability of hypoxemia during endscopies: {p3*100}')
+  #st.success('The probability of hypoxemia during endscopies: {:.2f}%'.format(p3[0]*100))
+#p3 = p2[:,1]*100
+    #st.success(p2)
+    #st.success('The probability of hypoxemia during endscopies: {:.1f}%'.format(p2*100))
+    #st.write('The Gastric Volume',round(p2,2))
+    #st.success(p2.reshape(1))
