@@ -87,7 +87,10 @@ if st.button("Predict"):
       #b="Low risk"
   #st.success('The risk group:'+ b)
   
-  explainer = shap.KernelExplainer(xgb.predict,trainx)
+  
+  
+
+explainer = shap.KernelExplainer(xgb.predict,trainx)
   shap_values = explainer.shap_values(outputdf)
 
 
