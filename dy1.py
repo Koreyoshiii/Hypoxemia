@@ -94,12 +94,12 @@ explainer = shap.KernelExplainer(xgb.predict,trainx)
 shap_values = explainer.shap_values(outputdf)
 
 
-  from shap.plots import _waterfall
+from shap.plots import _waterfall
 #st_shap(shap.plots.waterfall(shap_values[0]),  height=500, width=1700)
-  st.set_option('deprecation.showPyplotGlobalUse', False)
-  _waterfall.waterfall_legacy(explainer.expected_value,shap_values[0,:],feature_names=trainx.columns)
+st.set_option('deprecation.showPyplotGlobalUse', False)
+_waterfall.waterfall_legacy(explainer.expected_value,shap_values[0,:],feature_names=trainx.columns)
 #shap.summary_plot(shap_values,outputdf,feature_names=X.columns)
-  st.pyplot(bbox_inches='tight')
+st.pyplot(bbox_inches='tight')
 
 #p3 = p2[:,1]
 #result=""
