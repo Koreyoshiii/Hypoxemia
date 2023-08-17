@@ -1,5 +1,4 @@
 import streamlit as st
-
 import numpy as np
 from numpy import array
 from numpy import argmax
