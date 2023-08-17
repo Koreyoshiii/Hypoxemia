@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 from xgboost.sklearn import XGBClassifier
 
 st.set_page_config(page_title="Probability Prediction of Hypoxemia in Gastrointestinal Endoscopy under Sedation", layout="wide")
-
 plt.style.use('default')
 
 df=pd.read_csv('traindata.csv',encoding='utf8')
