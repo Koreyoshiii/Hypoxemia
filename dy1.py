@@ -91,7 +91,7 @@ if st.button("Predict"):
   
 
 explainer = shap.KernelExplainer(xgb.predict,trainx)
-  shap_values = explainer.shap_values(outputdf)
+shap_values = explainer.shap_values(outputdf)
 
 
   from shap.plots import _waterfall
